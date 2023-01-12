@@ -1,0 +1,36 @@
+@startuml
+class com.masanz.logic.Persona {
+}
+class com.masanz.logic.Grupo {
+}
+class com.masanz.menus.MenuPrincipal {
+}
+class com.masanz.logic.Posicion {
+}
+class com.masanz.menus.MenuPersonas {
+}
+class com.masanz.io.Salida {
+}
+class com.masanz.logic.GestorDeGrupos {
+}
+class com.masanz.menus.MenuGrupos {
+}
+class com.masanz.io.Entrada {
+}
+
+com.masanz.logic.GestorDeGrupos o-right- com.masanz.logic.Grupo
+com.masanz.logic.Grupo o-right- com.masanz.logic.Persona
+com.masanz.logic.Persona -right-> com.masanz.logic.Posicion
+
+com.masanz.menus.MenuGrupos <.right. com.masanz.menus.MenuPrincipal
+com.masanz.menus.MenuPrincipal .right.> com.masanz.menus.MenuPersonas
+
+com.masanz.menus ..> com.masanz.io
+com.masanz.menus.MenuGrupos --> com.masanz.logic.GestorDeGrupos
+com.masanz.menus.MenuPrincipal --> com.masanz.logic.GestorDeGrupos
+com.masanz.menus.MenuPersonas --> com.masanz.logic.GestorDeGrupos
+
+com.masanz.io.Salida ..> com.masanz.logic.Persona
+com.masanz.io.Salida ..> com.masanz.logic.Grupo
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+class MenuGrupos {
+- GestorDeGrupos gdg
++ <<Create>> MenuGrupos(GestorDeGrupos)
++ {static} void main(String[])
++ void run()
+- void grupos()
+- void personasPorApellido()
+- void personasPorPuntos()
+- void suspendidos()
+- void pintarSitios()
+}
+class MenuPrincipal {
+- GestorDeGrupos gdg
++ <<Create>> MenuPrincipal(GestorDeGrupos)
++ {static} void main(String[])
++ void run()
+- void operacionesGrupos()
+- void operacionesPersonas()
+}
+class MenuPersonas {
+- GestorDeGrupos gdg
++ <<Create>> MenuPersonas(GestorDeGrupos)
++ {static} void main(String[])
++ void run()
+- void crear()
+- void buscar()
+- void actualizar()
+- void borrar()
+- void listar()
+}
+MenuGrupos <-right- MenuPrincipal
+MenuPrincipal -right-> MenuPersonas
+@enduml

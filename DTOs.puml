@@ -1,0 +1,27 @@
+@startuml
+class GestorDeGrupos {
+- Grupos[] grupos
+- int numero
+}
+class Grupo {
+- String nombre
+- Persona[] personas
+- int tamano
+- int filas
+- int columnas
+}
+class Persona {
+- String nombre
+- String apellidos
+- String siglas
+- int puntos
+- Posicion posicion
+}
+class Posicion {
+- int fila
+- int columna
+}
+GestorDeGrupos o-right- Grupo
+Grupo o-right- Persona
+Persona -right-> Posicion
+@enduml
