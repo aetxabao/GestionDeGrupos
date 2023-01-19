@@ -138,7 +138,12 @@ public class GrupoTest {
         String nombre = "DAW1";
         Persona[] a = new Persona[100];
         int t = gdg.getGrupo(nombre).getTamano();
-        System.arraycopy(gdg.getPersonasPorPuntos(nombre),0,a,0,t);
+//        System.arraycopy(gdg.getPersonasPorPuntos(nombre),0,a,0,t);//MAL
+        //BIEN
+        Persona[] b = gdg.getPersonasPorPuntos(nombre);
+        for (int i = 0; i < t; i++) {
+            a[i] = b[t - 1 - i];
+        }
         //Aihen, Aitzol, Aiert, Aiora, Aimar, Aitor
         Persona[] ps = {
                 new Persona("Aimar","García", "AG1", 80, 0, 1),
@@ -167,7 +172,12 @@ public class GrupoTest {
         String nombre = "DAM1";
         Persona[] a = new Persona[100];
         int t = gdg.getGrupo(nombre).getTamano();
-        System.arraycopy(gdg.getPersonasPorPuntos(nombre),0,a,0,t);
+//        System.arraycopy(gdg.getPersonasPorPuntos(nombre),0,a,0,t);//MAL
+        //BIEN
+        Persona[] b = gdg.getPersonasPorPuntos(nombre);
+        for (int i = 0; i < t; i++) {
+            a[i] = b[t - 1 - i];
+        }
         //Aihen, Aitzol, Aiert, Aiora, Aimar, Aitor
         Persona[] ps = {
                 new Persona("Aimar","García", "AG1", 80, 0, 1),
@@ -185,8 +195,9 @@ public class GrupoTest {
             sb.append(a[i].getSiglas()).append(a[i].getPuntos());
         }
         //AG6 30, AG2 40, AG3 50, AG5 70, AG1 80, AG4 90
-        String result = "TD1AP10MS16BT23AG629BL30JT34AG240AG350SB52AN53TC56CO58SD69AG570IA72TC73RB80AG180RG82EK89AG490DM93VK95BB96JS96GA97AM99WD100";
-        assertEquals(result, sb.toString(), "Compruebalo");
+//        String result = "TD1AP10MS16BT23AG629BL30JT34AG240AG350SB52AN53TC56CO58SD69AG570IA72TC73RB80AG180RG82EK89AG490DM93VK95BB96JS96GA97AM99WD100";
+          String result = "TD1AP10MS16BT23AG629BL30JT34AG240AG350SB52AN53TC56CO58SD69AG570IA72TC73RB80AG180RG82EK89AG490DM93VK95JS96BB96GA97AM99WD100";
+        assertEquals(result, sb.toString(), "Comprueba los que tienen la misma puntuación: RB y AG1, JS y BB");
     }
 
 
@@ -253,7 +264,12 @@ public class GrupoTest {
         String nombre = "DAW1";
         int t = gdg.getGrupo(nombre).getTamano();
         Persona[] a = new Persona[t+6];
-        System.arraycopy(gdg.getPersonasPorApellido(nombre),0,a,0,t);
+//        System.arraycopy(gdg.getPersonasPorPuntos(nombre),0,a,0,t);//MAL
+        //BIEN
+        Persona[] b = gdg.getPersonasPorPuntos(nombre);
+        for (int i = 0; i < t; i++) {
+            a[i] = b[t - 1 - i];
+        }
         //Aihen, Aitzol, Aiert, Aiora, Aimar, Aitor
         a[t+0] = new Persona("Aimar","García", "AG1", 80, 0, 1);
         a[t+1] = new Persona("Aitzol","García", "AG2", 40, 0, 2);
@@ -280,7 +296,12 @@ public class GrupoTest {
         String nombre = "DAM1";
         int t = gdg.getGrupo(nombre).getTamano();
         Persona[] a = new Persona[t+6];
-        System.arraycopy(gdg.getPersonasPorApellido(nombre),0,a,0,t);
+//        System.arraycopy(gdg.getPersonasPorPuntos(nombre),0,a,0,t);//MAL
+        //BIEN
+        Persona[] b = gdg.getPersonasPorPuntos(nombre);
+        for (int i = 0; i < t; i++) {
+            a[i] = b[t - 1 - i];
+        }
         //Aihen, Aitzol, Aiert, Aiora, Aimar, Aitor
         a[t+0] = new Persona("Aimar","García", "AG1", 80, 0, 1);
         a[t+1] = new Persona("Aitzol","García", "AG2", 40, 0, 2);
@@ -296,8 +317,9 @@ public class GrupoTest {
             sb.append(a[i].getSiglas()).append(a[i].getPuntos());
         }
         //AG4 90, AG1 80, AG5 70, AG3 50, AG2 40, AG6 29
-        String result = "WD100AM99GA97BB96JS96VK95DM93AG490EK89RG82RB80AG180TC73IA72AG570SD69CO58TC56AN53SB52AG350AG240JT34BL30AG629BT23MS16AP10TD1";
-        assertEquals(result, sb.toString(), "Compruebalo");
+//        String result = "WD100AM99GA97BB96JS96VK95DM93AG490EK89RG82RB80AG180TC73IA72AG570SD69CO58TC56AN53SB52AG350AG240JT34BL30AG629BT23MS16AP10TD1";
+        String result = "WD100AM99GA97JS96BB96VK95DM93AG490EK89RG82RB80AG180TC73IA72AG570SD69CO58TC56AN53SB52AG350AG240JT34BL30AG629BT23MS16AP10TD1";
+        assertEquals(result, sb.toString(), "Comprueba los que tienen la misma puntuación: RB y AG1, JS y BB");
     }
 
     @Test
