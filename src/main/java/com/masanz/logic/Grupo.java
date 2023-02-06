@@ -71,19 +71,63 @@ public class Grupo {
 //        return false;
 //    }
 
+//    public boolean add(Persona persona) {
+//        //TODO: add
+//        if (tamano < personas.length) {
+//            int idx = busquedaDicotomica(persona.getApellidosNombre());
+//            if (persona.equals(personas[idx])){
+//                return false;
+//            }
+//            personas[tamano] = persona;
+//            for(int i=tamano;i>0;i--) {
+//                if (personas[i].getApellidos().compareTo(personas[i-1].getApellidos())<0) {
+//                    personas[i] = personas[i-1];
+//                    personas[i-1] = persona;
+//                }else if (personas[i].getApellidos().compareTo(personas[i-1].getApellidos())==0 &&
+//                        personas[i].getNombre().compareTo(personas[i-1].getNombre())<0 ) {
+//                    personas[i] = personas[i - 1];
+//                    personas[i - 1] = persona;
+//                }else {
+//                    break;
+//                }
+//            }
+//            tamano++;
+//            return true;
+//        }
+//        return false;
+//    }
+
     public boolean add(Persona persona) {
         //TODO: add
-        return false;
+        if (tamano == personas.length) return false;
+        int pos = busquedaDicotomica(persona.getApellidosNombre());
+        if (pos < tamano && personas[pos].getApellidosNombre().equals(persona.getApellidosNombre())) {
+            return false;
+        }
+        tamano++;
+        for (int i = tamano-1; i > pos; i--) {
+            personas[i] = personas[i-1];
+        }
+        personas[pos] = persona;
+        return true;
     }
 
     public int getCuantosSuspendidosHay(){
         //TODO: getCuantosSuspendidosHay
-        return 0;
+        int n = 0;
+        for (int i = 0; i < tamano; i++) {
+            if (personas[i].getPuntos() < 50) {
+                n++;
+            }
+        }
+        return n;
     }
 
     public Persona[] getPersonasPorApellidos() {
         //TODO: getPersonasPorApellidos
-        return null;
+        Persona[] a = new Persona[tamano];
+        System.arraycopy(personas,0,a, 0, tamano);
+        return a;
     }
 
     /**
@@ -92,13 +136,48 @@ public class Grupo {
      * @param t numero de personas ya insertadas, t>=0 y t<=n-1
      * @param p persona a insertar con una cantidad de puntos
      */
+//    public static void insercionDirectaPorPuntosCreciente(Persona[] a, int t,  Persona p) {
+//        //TODO: insercionDirectaPorPuntosCreciente
+//        if (t==0){
+//            a[0] = p;
+//        } else if (t==1) {
+//            a[1] = p;
+//            if (a[0].getPuntos()>a[1].getPuntos()){
+//                a[1] = a[0];
+//                a[0] = p;
+//            }
+//        }else {
+//            int j = t - 1;
+//            while (j >= 0 && a[j].getPuntos() > p.getPuntos()){
+//                a[j + 1] = a[j];
+//                j--;
+//            }
+//            a[j + 1] = p;
+//        }
+//    }
     public static void insercionDirectaPorPuntosCreciente(Persona[] a, int t,  Persona p) {
         //TODO: insercionDirectaPorPuntosCreciente
+        int pos = t;
+        while (pos > 0 && a[pos - 1].getPuntos() > p.getPuntos()) {
+            a[pos] = a[pos - 1];
+            pos--;
+        }
+        a[pos] = p;
     }
 
     public Persona[] getPersonasSuspendidas() {
         //TODO: getPersonasSuspendidas
-        return null;
+        int n = getCuantosSuspendidosHay();
+        Persona[] a = new Persona[n];
+        int t = 0;
+        for (int i = 0; i<tamano && t<n; i++) {
+            if (personas[i].getPuntos() < 50) {
+                Persona p = personas[i];
+                insercionDirectaPorPuntosCreciente(a, t, p);
+                t++;
+            }
+        }
+        return a;
     }
 
     /**
@@ -109,6 +188,17 @@ public class Grupo {
      */
     public static void ordenacionPorSeleccionDirectaDePuntosDescendente(Persona[] a) {
         //TODO: ordenacionPorSeleccionDirectaDePuntosDescendente
+        for (int i = 0; i < a.length - 1; i++) {
+            int posmax = i;
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[j].getPuntos() > a[posmax].getPuntos()) {
+                    posmax = j;
+                }
+            }
+            Persona aux = a[posmax];
+            a[posmax] = a[i];
+            a[i] = aux;
+        }
     }
 
     public Persona[] getPersonasOrdenadasPorPuntos() {
@@ -128,19 +218,86 @@ public class Grupo {
      * @param txt texto cuyo indice de inserción se busca, ej "García, Aiora"
      * @return posición del array en la que se insertaría
      */
+//    public int busquedaDicotomica(String txt) {
+//        //TODO: busquedaDicotomica
+//        int izquierda = 0;
+//        int derecha = tamano - 1;
+//        int mitad;
+//        String apellidosNombre;
+//        while ( izquierda < derecha ) {
+//            mitad = (izquierda + derecha) / 2;
+//            apellidosNombre = personas[mitad].getApellidosNombre();
+//            if (apellidosNombre.compareTo(txt)<0) {
+//                izquierda = mitad + 1;
+//            } else if (apellidosNombre.compareTo(txt)==0) {
+//                return mitad;
+//            } else {
+//                derecha = mitad - 1;
+//            }
+//        }
+//        if (tamano>0 && personas[izquierda].getApellidosNombre().compareTo(txt)<0) {
+//            izquierda++;
+//        }
+//        return izquierda;
+//    }
     public int busquedaDicotomica(String txt) {
         //TODO: busquedaDicotomica
-        return 0;
+        int izquierda = 0;
+        int derecha = tamano - 1;
+        int mitad;
+        while (izquierda <= derecha) {
+            mitad = (izquierda + derecha) / 2;
+            if (personas[mitad].getApellidosNombre().compareToIgnoreCase(txt) == 0) {
+                return mitad;
+            }
+            else if (personas[mitad].getApellidosNombre().compareTo(txt) > 0) {
+                derecha = mitad - 1;
+            }
+            else {
+                izquierda = mitad + 1;
+            }
+        }
+        return izquierda;
     }
+
 
     /**
      * Devuelve un array de personas cuyos apellidos empiezan como se indica
      * @param apellidos texto por el cual deben empezar los apellidos
      * @return una array con las referencias a las personas, puede ser de tamaño 0.
      */
+//    public Persona[] find(String apellidos) {
+//        //TODO: find
+//        int idx = busquedaDicotomica(apellidos);
+//        int n = 0;
+//        for (int i = idx; i < tamano; i++) {
+//            if (personas[i].getApellidos().startsWith(apellidos)){
+//                n++;
+//            }else{
+//                break;
+//            }
+//        }
+//        Persona[] res = new Persona[n];
+//        int j = 0;
+//        for (int i = idx; i < tamano && j < n; i++) {
+//            if (personas[i].getApellidos().startsWith(apellidos)){
+//                res[j++] = personas[i];
+//            }
+//        }
+//        return res;
+//    }
     public Persona[] find(String apellidos) {
         //TODO: find
-        return null;
+        int n = 0;
+        int pos =  busquedaDicotomica(apellidos);
+        for (int i = pos; i < tamano; i++) {
+            if(personas[i].getApellidosNombre().startsWith(apellidos)){
+                n++;
+            }
+        }
+        Persona[] res = new Persona[n];
+        System.arraycopy(personas, pos, res, 0, n);
+        return res;
     }
 
     public int numeroPrimer(String apellidos) {
@@ -154,15 +311,29 @@ public class Grupo {
      */
     public Persona getPersona(int idx) {
         //TODO: getPersona
-        return null;
+        if (idx<1 || idx>tamano) {
+            return null;
+        }
+        return personas[idx-1];
     }
 
     /**
      * Borra una persona del grupo eliminandolo del array y dejandolo ordenado y seguido con el tamano reducido
      * @param idx indice válido del 1 en adelante hasta tamaño incluido
      */
+//    public boolean del(int idx) {
+//        //TODO: del
+//        for (int i = idx-1; i < tamano-1; i++) {
+//            personas[i] = personas[i+1];
+//        }
+//        personas[tamano-1] = null;
+//        tamano--;
+//        return true;
+//    }
     public boolean del(int idx) {
         //TODO: del
+        System.arraycopy(personas, idx, personas, idx - 1, tamano - idx);
+        tamano--;
         return true;
     }
 

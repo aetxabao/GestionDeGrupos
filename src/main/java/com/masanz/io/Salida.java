@@ -112,18 +112,58 @@ public class Salida {
 
     public static void listarGrupos(Grupo[] grupos) {
         //TODO: listarGrupos
+        if (grupos == null) {
+            System.out.println("No hay grupos");
+        }else{
+            for (int i = 0; i < grupos.length; i++) {
+                System.out.printf("%5d. %s (%d)\n",i+1,grupos[i].getNombre(),grupos[i].getTamano());
+            }
+        }
     }
 
     public static void listarPersonas(Persona[] personas) {
         //TODO: listarPersonas (1)
+        if (personas == null) {
+            System.out.println("El grupo no existe.");
+        }else{
+            for (int i = 0; i < personas.length; i++) {
+                if (personas[i] == null) {
+                    return;
+                }else{
+                    System.out.printf("%5d. %s\n", i+1, personas[i]);
+                }
+            }
+        }
     }
 
     public static void listarPersonas(Persona[] personas, int idx) {
         //TODO: listarPersonas (2)
+        if (personas == null || personas.length == 0) {
+            System.out.println("No hay personas.");
+        }else {
+            for (int i = 0; i < personas.length; i++) {
+                Persona p = personas[i];
+                System.out.printf("%5d. %s\n", idx++, p);
+            }
+        }
     }
 
     public static void pintar(Persona[][] personas) {
         //TODO: pintar
+        if (personas == null) {
+            System.out.println("El grupo no existe.");
+        }else{
+            for (int i = personas.length-1; i >= 0; i--) {
+                for (int j = 0; j <personas[i].length; j++) {
+                    if (personas[i][j]!=null) {
+                        System.out.printf("%-4s",personas[i][j].getSiglas());
+                    }else {
+                        System.out.printf("%4s","  ");
+                    }
+                }
+                System.out.println();
+            }
+        }
     }
 
 }

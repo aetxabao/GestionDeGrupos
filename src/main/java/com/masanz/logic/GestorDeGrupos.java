@@ -145,7 +145,18 @@ public class GestorDeGrupos {
 
     public Persona[][] getPersonasSitios(String grupo) {
         //TODO: getPersonasSitios
-        return null;
+        int idx = getIndiceGrupo(grupo);
+        if (idx<0) return null;
+        int filas = grupos[idx].getFilas();
+        int columnas = grupos[idx].getColumnas();
+        Persona[] personas = grupos[idx].getPersonasPorApellidos();
+        Persona[][] sitios = new Persona[filas][columnas];
+        for (int i = 0; i < personas.length; i++) {
+            int fila = personas[i].getPosicion().getFila();
+            int columna = personas[i].getPosicion().getColumna();
+            sitios[fila][columna] = personas[i];
+        }
+        return sitios;
     }
 
 }
